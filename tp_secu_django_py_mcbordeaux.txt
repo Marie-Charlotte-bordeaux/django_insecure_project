@@ -1,4 +1,4 @@
-TP : Durcir un projet Django
+TP : Durcir un projet Django _ BORDEAUX Marie-Charlotte
 
 Etape 1 : Création du projet de test -> ok
 Etape 2 : Page web de test -> ok
