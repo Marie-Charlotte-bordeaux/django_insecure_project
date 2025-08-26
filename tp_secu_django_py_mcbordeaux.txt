@@ -61,21 +61,21 @@ Etape 5 : Sécurisation des cookies
          Protéger les cookies contre le vol et les attaques.
             #Cookies et sessions
             #redirige tout le trafic vers HTTPS.
-            SECURE_SSL_REDIRECT= True
+            ~~> SECURE_SSL_REDIRECT= True
 
             #COOKIES QUE pour HTTPS
             #Cela indique au navigateur d'envoyer ces cookies uniquement via des connexions HTTPS.
-            SESSION_COOKIE_SECURE = True
+            ~~> SESSION_COOKIE_SECURE = True
             # la protection CSRF empêchera toute acceptation de données POST via HTTP
-            CSRF_COOKIE_SECURE = True
+            ~~> CSRF_COOKIE_SECURE = True
 
             #Si ce paramètre est défini sur True,
             # le JavaScript côté client ne pourra pas accéder au cookie de session.
-            SESSION_COOKIE_HTTPONLY = True
+            ~~> SESSION_COOKIE_HTTPONLY = True
             #garder sur false pour les requêtes Ajaw si besoin
             #Si ce paramètre est défini sur True,
             # le JavaScript côté client ne pourra pas accéder au cookie CSRF.
-            CSRF_COOKIE_HTTPONLY = False
+            ~~> CSRF_COOKIE_HTTPONLY = True
 
             #Cet indicateur empêche l'envoi du cookie dans les requêtes intersites,
             # empêchant ainsi les attaques CSRF et rendant impossible
@@ -83,6 +83,33 @@ Etape 5 : Sécurisation des cookies
             #'Strict': empêche le cookie d'être envoyé par
             # le navigateur au site cible dans tous
             # les contextes de navigation intersites, même en suivant un lien régulier.
-            SESSION_COOKIE_SAMESITE= 'lax'
+            ~~> SESSION_COOKIE_SAMESITE= 'lax'
             #Cet indicateur empêche l'envoi du cookie dans les requêtes intersites.
-            CSRF_COOKIE_SAMESITE = 'LAX'
+            ~~> CSRF_COOKIE_SAMESITE = 'LAX'
+
+Etape 6 : HTTPS et HSTS
+https://docs.djangoproject.com/en/5.2/ref/middleware/#http-strict-transport-security
+        Forcer l'utilisation d'HTTPS et activer HSTS (HTTP Strict transport Security).
+
+        HSTS est un en-tête HTTP qui informe le navigateur que toutes les futures connexions
+        à un site particulier doivent toujours utiliser HTTPS. Associé à la redirection
+        des requêtes HTTP vers HTTPS, cela garantit que les connexions bénéficient toujours
+        de la sécurité supplémentaire de SSL, à condition qu'une connexion ait réussi.
+        HSTS peut être configuré avec SECURE_HSTS_SECONDS, SECURE_HSTS_INCLUDE_SUBDOMAINS,
+        et SECURE_HSTS_PRELOAD, ou sur le serveur web.
+
+            # Redirections & HSTS (uniquement en prod derrière HTTPS)
+            #Redirige tout le trafic vers HTTPS.
+            SECURE_SSL_REDIRECT = True
+
+            SECURE_HSTS_SECONDS = 31536000 if True else 0
+            #Si True, Security Middlewarela directive est ajoutée includeSubDomains
+            # à l' en-tête HTTP Strict Transport Security . Elle n'a aucun effet,
+            # sauf si SECURE_HSTS_SECONDS elle est définie sur une valeur différente de zéro.
+            SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+            SECURE_HSTS_PRELOAD = True
+
+Etape 7 : Headers de sécurité
+        Ajouter des header http qui protègent contre diverses attaques.
+
+        Qu'est ce que le clickJacking :

@@ -14,7 +14,7 @@ from pathlib import Path
 import environ
 import os
 
-
+from django.conf.global_settings import SECURE_REFERRER_POLICY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
 DEBUG=(bool, False),
 )
+
 env_file = BASE_DIR / '.env'
 if env_file.exists():
     environ.Env.read_env(env_file)
@@ -33,7 +34,7 @@ if env_file.exists():
 SECRET_KEY = env('SECRET_KEY')
 
 #Varaiable pour activer le mode sécurisé
-DJANGO_SECURE = os.getenv('DJANGO_SECURE', 'False').lower() == 'true'
+DJANGO_SECURE = os.getenv('DJANGO_SECURE','False').lower() == 'true'
 
 #En production, DEBUG doit être FALSE
 DEBUG = not DJANGO_SECURE
@@ -45,52 +46,50 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 #Pour HTTPS local sur port 8443
 #CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
-CSRF_TRUSTED_ORIGGINS = [
-    'https://127.0.0.1',
-    'http://localhost',
-    'http://localhost:8443',
+#CSRF_TRUSTED_ORIGINS = [
+    #'https://127.0.0.1',
+    #'https://localhost',
+    #'https://localhost:8000',
+#]
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
 ]
 
+#######################
+# HEADERS
+######################
+
 #Cookies et sessions
-#Redirige tout le trafic vers HTTPS.
-SECURE_SSL_REDIRECT= True
+#(uniquement en prod derrière HTTPS)
+if DJANGO_SECURE:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = False
+    SESSION_COOKIE_SAMESITE = 'lax'
+    CSRF_COOKIE_SAMESITE = 'Lax'
 
-#COOKIES QUE pour HTTPS
-#Cela indique au navigateur d'envoyer ces cookies uniquement via des connexions HTTPS.
-SESSION_COOKIE_SECURE = True
-# la protection CSRF empêchera toute acceptation de données POST via HTTP
-CSRF_COOKIE_SECURE = True
-
-#Si ce paramètre est défini sur True,
-# le JavaScript côté client ne pourra pas accéder au cookie de session.
-SESSION_COOKIE_HTTPONLY = True
-#garder sur false pour les requêtes Ajaw si besoin
-#Si ce paramètre est défini sur True,
-# le JavaScript côté client ne pourra pas accéder au cookie CSRF.
-CSRF_COOKIE_HTTPONLY = False
-
-#Cet indicateur empêche l'envoi du cookie dans les requêtes intersites,
-# empêchant ainsi les attaques CSRF et rendant impossible
-# certaines méthodes de vol de cookie de session.
-#'Strict': empêche le cookie d'être envoyé par
-# le navigateur au site cible dans tous
-# les contextes de navigation intersites, même en suivant un lien régulier.
-SESSION_COOKIE_SAMESITE= 'lax'
-#Cet indicateur empêche l'envoi du cookie dans les requêtes intersites.
-CSRF_COOKIE_SAMESITE = 'LAX'
+    # Redirections & HSTS
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    SESSION_COOKIE_SECURE = False
+    SECURE_HSTS_SECONDS = 0
 
 
+#Protection contre le MIME sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
+#Contrôle du header Referer
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
-
-
-# Base de données (pour plus tard)
-# DATABASES = {
-# "default": env.db(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
-# }
+#Protection contre le clickJacking
+X_FRAME_OPTIONS = 'DENY'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
