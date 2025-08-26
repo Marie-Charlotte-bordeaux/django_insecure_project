@@ -46,14 +46,10 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 #Pour HTTPS local sur port 8443
 #CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
-#CSRF_TRUSTED_ORIGINS = [
-    #'https://127.0.0.1',
-    #'https://localhost',
-    #'https://localhost:8000',
-#]
 CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
+    'https://127.0.0.1',
+    'https://localhost',
+    'https://localhost:8000',
 ]
 
 #######################
@@ -63,7 +59,7 @@ CSRF_TRUSTED_ORIGINS = [
 #Cookies et sessions
 #(uniquement en prod derrière HTTPS)
 if DJANGO_SECURE:
-    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = DJANGO_SECURE
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
     CSRF_COOKIE_HTTPONLY = False
@@ -71,7 +67,7 @@ if DJANGO_SECURE:
     CSRF_COOKIE_SAMESITE = 'Lax'
 
     # Redirections & HSTS
-    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = DJANGO_SECURE
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True

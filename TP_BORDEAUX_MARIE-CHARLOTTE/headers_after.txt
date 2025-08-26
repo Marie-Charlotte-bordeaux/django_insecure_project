@@ -1,0 +1,10 @@
+﻿HTTP/1.1 301 Moved Permanently
+Date: Tue, 26 Aug 2025 13:53:07 GMT
+Server: WSGIServer/0.2 CPython/3.13.4
+Content-Type: text/html; charset=utf-8
+Location: https://127.0.0.1:8000/
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Cross-Origin-Opener-Policy: same-origin
+Content-Security-Policy: style-src 'self'; default-src 'self'; img-src 'self' data:; script-src 'self'
+

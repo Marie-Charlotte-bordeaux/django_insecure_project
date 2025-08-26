@@ -146,3 +146,19 @@ Etape 8 : Content Security Policy (CSP)
        pour un test de CSP.
 
 Etape 9 : Validation des configurations
+        Verifier que toutes les protections sont actives.
+        mon fichier after.Txt : System check identified no issues (0 silenced).
+        mon header_after.txt :
+            HTTP/1.1 301 Moved Permanently
+            Date: Tue, 26 Aug 2025 13:53:07 GMT
+            Server: WSGIServer/0.2 CPython/3.13.4
+            Content-Type: text/html; charset=utf-8
+            Location: https://127.0.0.1:8000/
+            X-Content-Type-Options: nosniff
+            Referrer-Policy: strict-origin-when-cross-origin
+            Cross-Origin-Opener-Policy: same-origin
+            Content-Security-Policy: style-src 'self'; default-src 'self'; img-src 'self' data:; script-src 'self'
+        ---> Dans mon headers_after.txt  HSTS (Strict-Transport-Security) n’apparaît pas en HTTP, uniquement en HTTPS.
+
+Etape 10 : Documentation de vos changments
+
