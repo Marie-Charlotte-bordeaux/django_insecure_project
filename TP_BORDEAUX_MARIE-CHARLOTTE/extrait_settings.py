@@ -28,34 +28,29 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost' ]
 
 #=== SECURITE DES COOKIES ===
 # -------------------------------------------------------------------
-# Cookies sécurisés (uniquement en prod avec HTTPS)
-if DJANGO_SECURE:
-    # Cookies envoyés uniquement via HTTPS
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    # Cookies inaccessibles au JavaScript (protège contre le vol)
-    SESSION_COOKIE_HTTPONLY = True
-    CSRF_COOKIE_HTTPONLY = True
-    # Restreint l’usage des cookies aux mêmes sites (protège contre CSRF)
-    SESSION_COOKIE_SAMESITE = 'Lax'
-    CSRF_COOKIE_SAMESITE = 'Lax'
+# Cookies sécurisés
+
+# Cookies envoyés uniquement via HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+# Cookies inaccessibles au JavaScript (protège contre le vol)
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+# Restreint l’usage des cookies aux mêmes sites (protège contre CSRF)
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 # === HTTPS et HSTS ===
-    # Redirections & HSTS
-    # Force toutes les requêtes en HTTPS
-    SECURE_SSL_REDIRECT = True
-    # Active HSTS : le navigateur impose HTTPS pour 1 an
-    SECURE_HSTS_SECONDS = 31536000
-    # Applique HSTS aussi aux sous-domaines
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    # Indique aux navigateurs de précharger HSTS
-    SECURE_HSTS_PRELOAD = True
-else:
-    # En dev, cookies non sécurisés et pas de redirection HTTPS
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-    SECURE_SSL_REDIRECT = False
-    SECURE_HSTS_SECONDS = 0
+# Redirections & HSTS
+# Force toutes les requêtes en HTTPS
+SECURE_SSL_REDIRECT = True
+# Active HSTS : le navigateur impose HTTPS pour 1 an
+SECURE_HSTS_SECONDS = 31536000 if DJANGO_SECURE else 0
+# Applique HSTS aussi aux sous-domaines
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# Indique aux navigateurs de précharger HSTS
+SECURE_HSTS_PRELOAD = True
+
 
 # -------------------------------------------------------------------
 # Origines de confiance pour CSRF

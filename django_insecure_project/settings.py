@@ -31,21 +31,19 @@ if env_file.exists():
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 #Varaiable pour activer le mode sécurisé
 DJANGO_SECURE = os.getenv('DJANGO_SECURE','False').lower() == 'true'
 
 #En production, DEBUG doit être FALSE
 DEBUG = not DJANGO_SECURE
-#DEBUG = env('DEBUG')
+
 
 # Domaines autorisés
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-#ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
 
 #Pour HTTPS local sur port 8443
-#CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
 CSRF_TRUSTED_ORIGINS = [
     'https://127.0.0.1',
     'https://localhost',
@@ -58,22 +56,18 @@ CSRF_TRUSTED_ORIGINS = [
 
 #Cookies et sessions
 #(uniquement en prod derrière HTTPS)
-if DJANGO_SECURE:
-    SESSION_COOKIE_SECURE = DJANGO_SECURE
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_HTTPONLY = True
-    CSRF_COOKIE_HTTPONLY = False
-    SESSION_COOKIE_SAMESITE = 'lax'
-    CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = DJANGO_SECURE
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = 'lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
 
-    # Redirections & HSTS
-    SECURE_SSL_REDIRECT = DJANGO_SECURE
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-else:
-    SESSION_COOKIE_SECURE = False
-    SECURE_HSTS_SECONDS = 0
+# Redirections & HSTS
+SECURE_SSL_REDIRECT = DJANGO_SECURE
+SECURE_HSTS_SECONDS = 31536000 if DJANGO_SECURE else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = DJANGO_SECURE
+SECURE_HSTS_PRELOAD = True
 
 
 #Protection contre le MIME sniffing
@@ -86,10 +80,14 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 X_FRAME_OPTIONS = 'DENY'
 
 # CSP stricte : n'autorise que les ressources de noter domaine
-CONTENT_SECURITY_POLICY = {'DIRECTIVES': {'default-src': ("'self'",),
-                'img-src': ("'self'", 'data:'),
-                'script-src': ("'self'",),
-                'style-src': ("'self'",)}}
+CONTENT_SECURITY_POLICY = {
+    'DIRECTIVES': {
+        'default-src': ("'self'",),
+        'img-src': ("'self'", 'data:'),
+        'script-src': ("'self'",),
+        'style-src': ("'self'",)
+    }
+}
 
 # Application definition
 INSTALLED_APPS = [
@@ -106,7 +104,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

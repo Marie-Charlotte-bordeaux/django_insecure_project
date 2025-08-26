@@ -1,6 +1,4 @@
-Bien sûr ! Voici ton texte transformé en fichier Markdown (`.md`) avec une structure claire et lisible :
 
-````markdown
 # TP : Durcir un projet Django  
 **Auteur :** BORDEAUX Marie-Charlotte
 
@@ -23,11 +21,11 @@ Identifier les problèmes de sécurité actuels du projet.
 Après avoir lancé la commande :  
 ```bash
 python manage.py check --deploy > baseline.txt 2>&1
-````
+
 
 * Cela génère un fichier `baseline.txt` pour visualiser les avertissements/erreurs de sécurité détectés par Django.
 * Cette étape permet de durcir l'application en repérant les failles de sécurité.
-
+```
 ### Résultats : 6 WARNINGS
 
 * `(security.W004)`, `(security.W008)`, `(security.W009)`, `(security.W012)`, `(security.W016)`, `(security.W018)`
@@ -191,11 +189,5 @@ Content-Security-Policy: style-src 'self'; default-src 'self'; img-src 'self' da
 
 * Documenter toutes les modifications effectuées pour sécuriser le projet.
 
-```
-
 ---
 
-Si tu veux, je peux te générer directement le fichier `.md` prêt à être enregistré avec ce contenu, pour que tu n’aies plus qu’à le sauvegarder.  
-
-Veux‑tu que je fasse ça ?
-```
