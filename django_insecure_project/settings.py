@@ -51,6 +51,39 @@ CSRF_TRUSTED_ORIGGINS = [
     'http://localhost:8443',
 ]
 
+#Cookies et sessions
+#Redirige tout le trafic vers HTTPS.
+SECURE_SSL_REDIRECT= True
+
+#COOKIES QUE pour HTTPS
+#Cela indique au navigateur d'envoyer ces cookies uniquement via des connexions HTTPS.
+SESSION_COOKIE_SECURE = True
+# la protection CSRF empêchera toute acceptation de données POST via HTTP
+CSRF_COOKIE_SECURE = True
+
+#Si ce paramètre est défini sur True,
+# le JavaScript côté client ne pourra pas accéder au cookie de session.
+SESSION_COOKIE_HTTPONLY = True
+#garder sur false pour les requêtes Ajaw si besoin
+#Si ce paramètre est défini sur True,
+# le JavaScript côté client ne pourra pas accéder au cookie CSRF.
+CSRF_COOKIE_HTTPONLY = False
+
+#Cet indicateur empêche l'envoi du cookie dans les requêtes intersites,
+# empêchant ainsi les attaques CSRF et rendant impossible
+# certaines méthodes de vol de cookie de session.
+#'Strict': empêche le cookie d'être envoyé par
+# le navigateur au site cible dans tous
+# les contextes de navigation intersites, même en suivant un lien régulier.
+SESSION_COOKIE_SAMESITE= 'lax'
+#Cet indicateur empêche l'envoi du cookie dans les requêtes intersites.
+CSRF_COOKIE_SAMESITE = 'LAX'
+
+
+
+
+
+
 # Base de données (pour plus tard)
 # DATABASES = {
 # "default": env.db(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")

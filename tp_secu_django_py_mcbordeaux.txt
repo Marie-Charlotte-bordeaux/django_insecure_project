@@ -1,9 +1,11 @@
 TP : Durcir un projet Django _ BORDEAUX Marie-Charlotte
 
 Etape 1 : Création du projet de test -> ok
+
 Etape 2 : Page web de test -> ok
     creation de la page home + css + url afin d'afficher un template basique a l'écran
     -> ok
+
 Etape 3 : Diagnostic de sécurité initial
     identifier les problèmes de sécurité actuels du projet.
     Apres avoir lancer la commande :
@@ -55,3 +57,32 @@ Etape 4 : Configuration DEV/PROD
         Il est même recommander de mettre se paramettre dans le '.env' et de l'appelé dans le
         fichier 'settings.py'.
 
+Etape 5 : Sécurisation des cookies
+         Protéger les cookies contre le vol et les attaques.
+            #Cookies et sessions
+            #redirige tout le trafic vers HTTPS.
+            SECURE_SSL_REDIRECT= True
+
+            #COOKIES QUE pour HTTPS
+            #Cela indique au navigateur d'envoyer ces cookies uniquement via des connexions HTTPS.
+            SESSION_COOKIE_SECURE = True
+            # la protection CSRF empêchera toute acceptation de données POST via HTTP
+            CSRF_COOKIE_SECURE = True
+
+            #Si ce paramètre est défini sur True,
+            # le JavaScript côté client ne pourra pas accéder au cookie de session.
+            SESSION_COOKIE_HTTPONLY = True
+            #garder sur false pour les requêtes Ajaw si besoin
+            #Si ce paramètre est défini sur True,
+            # le JavaScript côté client ne pourra pas accéder au cookie CSRF.
+            CSRF_COOKIE_HTTPONLY = False
+
+            #Cet indicateur empêche l'envoi du cookie dans les requêtes intersites,
+            # empêchant ainsi les attaques CSRF et rendant impossible
+            # certaines méthodes de vol de cookie de session.
+            #'Strict': empêche le cookie d'être envoyé par
+            # le navigateur au site cible dans tous
+            # les contextes de navigation intersites, même en suivant un lien régulier.
+            SESSION_COOKIE_SAMESITE= 'lax'
+            #Cet indicateur empêche l'envoi du cookie dans les requêtes intersites.
+            CSRF_COOKIE_SAMESITE = 'LAX'
