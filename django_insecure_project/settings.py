@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import environ
+import os
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,11 +32,24 @@ if env_file.exists():
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+#Varaiable pour activer le mode sécurisé
+DJANGO_SECURE = os.getenv('DJANGO_SECURE', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+#En production, DEBUG doit être FALSE
+DEBUG = not DJANGO_SECURE
+#DEBUG = env('DEBUG')
+
+# Domaines autorisés
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+#ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
+
+#Pour HTTPS local sur port 8443
+#CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+CSRF_TRUSTED_ORIGGINS = [
+    'https://127.0.0.1',
+    'http://localhost',
+    'http://localhost:8443',
+]
 
 # Base de données (pour plus tard)
 # DATABASES = {
@@ -51,7 +67,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'csp',
-
 ]
 
 MIDDLEWARE = [
