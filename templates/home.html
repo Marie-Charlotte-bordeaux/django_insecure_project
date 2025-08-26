@@ -4,7 +4,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <style src="../static/core/app.css"></style>
     <link rel="stylesheet" href="{% static 'core/app.css' %}">
     <title>Home - Django Sécurisé</title>
 </head>
@@ -13,5 +12,7 @@
     <p>Ceci est un test de template.</p>
 
     <p>+ CSS statique.</p>
+
+<script>alert('Test XSS')</script>
 </body>
 </html>

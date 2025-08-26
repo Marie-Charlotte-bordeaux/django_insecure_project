@@ -89,6 +89,12 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 #Protection contre le clickJacking
 X_FRAME_OPTIONS = 'DENY'
 
+# CSP stricte : n'autorise que les ressources de noter domaine
+CONTENT_SECURITY_POLICY = {'DIRECTIVES': {'default-src': ("'self'",),
+                'img-src': ("'self'", 'data:'),
+                'script-src': ("'self'",),
+                'style-src': ("'self'",)}}
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -102,6 +108,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -112,15 +119,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Autoriser uniquement les scripts/styles venant de soi-même
-CONTENT_SECURITY_POLICY = {
-    'DIRECTIVES': {
-        'default-src': ("'self'",),
-        'script-src': ("'self'",),
-        'style-src': ("'self'",),
-        'img-src': ("'self'", "data:"),
-    }
-}
+
 
 ROOT_URLCONF = 'django_insecure_project.urls'
 

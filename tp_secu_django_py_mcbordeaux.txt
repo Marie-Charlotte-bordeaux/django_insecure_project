@@ -128,4 +128,21 @@ Etape 7 : Headers de sécurité
         2.Un ensemble de décorateurs de vue qui peuvent être utilisés pour
         remplacer le middleware ou pour définir uniquement l'en-tête pour certaines vues.
 
-        L' X-Frame-Options en-tête HTTP ne sera défini par le middleware ou les décorateurs de vue que s'il n'est pas déjà présent dans la réponse.
+        L' X-Frame-Options en-tête HTTP ne sera défini par le middleware ou les décorateurs
+        de vue que s'il n'est pas déjà présent dans la réponse.
+
+Etape 8 : Content Security Policy (CSP)
+        Implémenter une CSP pour bloquer l'exécution de code malveillant.
+    La console du naivgateur retourne ce message d'erreur :
+               Refused to execute inline script because it violates
+                the following Content Security Policy directive:
+                "script-src 'self'". Either the 'unsafe-inline' keyword, a hash
+                ('sha256-JYtB2qaxzL3oQZw2p7NvcjhlzoK4Mmd5I/0pH2xOM5E='),
+                or a nonce ('nonce-...') is required to enable inline execution.
+                Comprendre cette erreur
+               Unchecked runtime.lastError: The message port closed
+                before a response was received.
+      L’alerte alert('Test XSS') ne s’exécute pas. C’est le comportement attendu
+       pour un test de CSP.
+
+Etape 9 : Validation des configurations
