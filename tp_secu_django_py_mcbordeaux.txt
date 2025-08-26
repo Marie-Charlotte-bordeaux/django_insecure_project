@@ -112,4 +112,20 @@ https://docs.djangoproject.com/en/5.2/ref/middleware/#http-strict-transport-secu
 Etape 7 : Headers de sécurité
         Ajouter des header http qui protègent contre diverses attaques.
 
-        Qu'est ce que le clickJacking :
+        Qu'est ce que le clickJacking :  Ce type d'attaque se produit lorsqu'un
+        site malveillant incite un utilisateur à cliquer sur un élément caché d'un autre site,
+        chargé dans un cadre ou une iframe caché.
+        X_FRAME_OPTIONS :
+        Les navigateurs modernes respectent l'en-tête HTTP X-Frame-Options ,
+        qui indique si une ressource peut être chargée dans un cadre ou une iframe.
+        Si la réponse contient l'en-tête avec la valeur «SAMEORIGIN »,
+        le navigateur ne chargera la ressource dans un cadre que si la requête provient du même site.
+        Si l'en-tête est défini sur DENY« », le navigateur bloquera
+        le chargement de la ressource dans un cadre, quel que soit le site à l'origine de la requête.
+
+        Django propose plusieurs façons d'inclure cet en-tête dans les réponses de votre site :
+        1.Un middleware qui définit l'en-tête dans toutes les réponses.
+        2.Un ensemble de décorateurs de vue qui peuvent être utilisés pour
+        remplacer le middleware ou pour définir uniquement l'en-tête pour certaines vues.
+
+        L' X-Frame-Options en-tête HTTP ne sera défini par le middleware ou les décorateurs de vue que s'il n'est pas déjà présent dans la réponse.
